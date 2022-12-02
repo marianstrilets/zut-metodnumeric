@@ -1,0 +1,2 @@
+# zut-metodnumeric
+Metody numeryczne
