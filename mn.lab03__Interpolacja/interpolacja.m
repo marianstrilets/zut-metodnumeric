@@ -8,8 +8,11 @@ close all;
 %x = input("Podaj wektor x: ")
 %y = input("Podaj wektor y: ")
 
-x = [-10 -5 5];
-y = [5;3;6];
+%x = [-10 -5 5];
+%y = [5;3;6];
+
+x = [5 -1 3 6];
+y = [1;3;7;3];
 
 lengthX = length(x);
 vX = zeros(lengthX, lengthX);
@@ -30,8 +33,9 @@ end
 
 xo = min(x):.1:max(x);
 
-A = vX \ vY
-%disp(A);
+A = vX \ vY;
+disp("wspolczyniki welomianu: ")
+disp(A);
 
 for j=1 : length(xo)
     w(j) = 0;
