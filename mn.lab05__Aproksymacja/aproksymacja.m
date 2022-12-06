@@ -47,7 +47,10 @@ for i=1:lengthX
     end     
 end
 
-A = inv(Psi) * F
+A = inv(Psi) * F;
+disp("A = ")
+disp(A)
+
 
 xi = min(x):0.1:max(x);
 w=0;
