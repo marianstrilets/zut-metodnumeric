@@ -17,9 +17,6 @@ y = [1.6;2.0;2.5;3.5;4;7;20];
 %    y(i,1) = input('    punkt y: ');
 %end
 
-
-
-
 p = input('Wprowadz stopień welomianu p<=n: ');
 
 %-----------------------------------Psi------------------------------
@@ -47,10 +44,7 @@ for i=1:lengthX
     end     
 end
 
-A = inv(Psi) * F;
-disp("A = ")
-disp(A)
-
+A = inv(Psi) * F
 
 xi = min(x):0.1:max(x);
 w=0;
