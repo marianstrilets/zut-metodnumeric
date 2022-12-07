@@ -1,4 +1,4 @@
-%______Metody numeryczne LAB7____________________________
+%______Metody numeryczne LAB5____________________________
 %______________Calkowanie numeryczne_________________
 
 clc;
