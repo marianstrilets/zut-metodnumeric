@@ -1,89 +1,88 @@
 %______Metody numeryczne LAB8________________________
 %______________ Rownania nieliniowe _________________
+%Rownania nieliniowe
 
-clc;
-clear all;
-close all;
-
-y = 'exp(x) + x^2 - 2';
-f = inline(y);
-
-%przedzia calki a, b
-a = 0;
-b = 10;
-
-%n - ilość bloków
-n = 200;
-%h - krok calkowamie
-h = (b-a) / n; 
-%Rozkład do całkowania z krokiem h
-x = a : h : b;
-
-% _________________Całkowanie metodą prostokątów_____________
-J1 = h * (sum(f(x)) - f(b) );
-
-disp("Całkowanie metodą prostokątów: ")
-disp(J1);
-
-% __________________Całkowanie metodą trapezów_______________
-J2 = h * (sum(f(x)) - f(b) / (2 - f(a)) );
-
-disp("Całkowanie metodą trapezów: ")
-disp(J2);
-
-% __________________Całkowanie metodą Simpsona_______________
-even = a+h : 2*h : b-h;
-own = a+2*h : 2*h : b-2*h;
-
-J3 = (h/3 * (f(a) + 4*sum(f(even)) + 2*sum(f(own)) + f(b)) );
-
-disp("Całkowanie metodą simpsona: ")
-disp(J3);
-
-% __________________Całkowanie metodą Simpsona_______________
-J4 = quad(y, a, b);
-
-disp("Całkowanie metodą wbudowaną 'quar': ")
-disp(J4);
+%Skrypt do liczenia jednego pierwiastka funkcji
+%a=poczatek przedzialu, w ktorym szukamy pierwiastka
+%b=koniec przedzialu, w ktorym szukamy pierwiastka
+%xi=przedzial, w jakim wykres na zostac narysowany
 
 
-% __________________Całkowanie metodą Monte Carlo_______________
-%wykres funkcji
-plot(x, f(x));
 
-maximum = max(f(x));
 
-grid on;
-hold on;
+f=inline('(x.^3) + (x.^2) - 100');
 
-line([ a b ], [maximum maximum]);
+xi=0:0.005:1;
+xo=zeros(1,length(xi)); %do wykresu osi x
+y=f(xi);
+grid on
+hold on
+plot(xi,y)
+plot(xi,xo,'--')
 
-%liczba punktow
-num = 3000;
+a=input('Podaj a: ')
+b=input('Podaj b: ')
+clone_a=a;
+clone_b=b;
 
-X = a + (b-a) * rand(1, num);
-Y = maximum *rand(1, num);
+dokladnosc=0.005;
 
-k = 0;
-
-for i=1: num
-    if f(X(i))>Y(i)
-        k = k+1;
-        plot(X(i), Y(i), 'o', color='green');
+%============================
+%Met. bisekcji
+licznik=0;
+x0=(a+b)/2;
+while abs(f(x0)) > dokladnosc
+    licznik=licznik+1;
+    if f(a)*f(x0)<0
+        b=x0;
     else
-        plot(X(i), Y(i), '.', color='red');
+        a=x0;
+    end
+    x0=(a+b)/2;
+end
+disp('===================A============================');
+disp('pierwiastek z met. bisekcji: '); x0
+disp('ilosc iteracji: '); licznik
+a=clone_a;
+b=clone_b;
+licznik=0;
+%============================
+%Met. Falsi
+x0=(a*f(a)-b*f(b))/(f(b)-f(a));
+while abs(f(x0)) > dokladnosc
+    licznik=licznik+1;
+    if f(a)*f(x0)<0
+        x0=(x0*f(a)-a*f(x0))/(f(a)-f(x0));
+    else
+        x0=(x0*f(b)-b*f(x0))/(f(b)-f(x0));
     end
 end
-title("Całka Monte Carlo")
+disp('pierwiastek z reguły falsi: '); x0
+disp('ilosc iteracji: '); licznik
+licznik=0;
+%plot(x0,0,'.k','MarkerSize',10)
+%============================
+%Met. Newtona
+disp('===============================================');
+x0=a;
+h=0.01;
+%f2 = inline(diff(exp(x)+(x^2)-2));
+%f2(0)
 
-J5 = (b-a) * maximum * k/num;
-disp("calka monte carlo: ");
-disp(J5)
+%y_pochodna=(f(xi+h)-f(xi-h))/(2*h);
+%i = 1;
+while abs(f(x0)) > dokladnosc
+    licznik=licznik+1;
+    f2=(f(x0+h)-f(x0-h))/(2*h);
+    x0=x0-f(x0)/f2;
 
-hold off;
-grid off;
-
-
-
-
-
+    %x0=x0-f(x0)/y_pochodna(i);
+    %i=i+1;
+    
+    %x0=x0-f(x0)/f2(x0);
+end
+disp('pierwiastek z met. Newtona: '); x0
+disp('ilosc iteracji: '); licznik
+%============================
+disp('===============================================');
+disp('pierwiastek z funkcji fzero: '); fzero(f,a)
