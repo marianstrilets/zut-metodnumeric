@@ -1,5 +1,8 @@
+%________________________Metody Numeryczne______________________________
+%_______________________Rownanie nieliniowe____________________________________
 
-
+clc
+clear
 
 a=-2;
 b=2;
@@ -8,20 +11,22 @@ x=a:h:b;
 f=inline('exp(x)+x.^2-2');
 y=f(x);
 epsilon=10^(-3);
+
 % wykres
 plot(x,y)
+
 grid on
 hold on
-pierwiastek1=fzero(f,-2);
-pierwiastek2=fzero(f,2);
-plot(pierwiastek1,0,'or');
+
+sqrt_1=fzero(f,-2);
+sqrt_2=fzero(f,2);
+plot(sqrt_1,0,'or');
+
 hold on
-plot(pierwiastek2,0,'or');
-% a b
-a=input('Podaj a: ');
-b=input('Podaj b: ');
-% metoda polowienia
-disp('========================B=======================');
+plot(sqrt_2,0,'or');
+
+% -----------------     metoda polowienia  --------------------------------
+disp('-----------------     metoda polowienia  -------------------------');
 
 BI_a=a;
 BI_b=b;
@@ -36,10 +41,18 @@ while abs(BI_b-BI_a)>epsilon
     BI_x=(BI_a+BI_b)/2;
     BI_i=BI_i+1;
 end
-Metoda_Polowienia=BI_x
-Metoda_Polowienia_Iteracje=BI_i
-% regula falsi
-disp('===============================================');
+
+metoda_polowenia = BI_x;
+iter=BI_i;
+
+disp('Metoda polowienia:');
+disp(metoda_polowenia);
+disp('iteracje:');
+disp(iter);
+
+
+% -----------------     regula falsi  --------------------------------
+disp('-----------------     regula falsi  -------------------------');
 FA_x=0;
 FA_x1=((a*f(b))-(b*f(a)))/(f(b)-f(a));
 FA_i=1;
@@ -52,10 +65,16 @@ while abs(FA_x1-FA_x)>epsilon
     end
     FA_i=FA_i+1;
 end
-Regula_Falsi=FA_x1
-Regula_Falsi_Iteracje=FA_i
-% metoda newtona
-disp('===============================================');
+regula_falsi=FA_x1;
+iter=FA_i;
+
+disp('Regula Falsi:');
+disp(regula_falsi);
+disp('iteracje:');
+disp(iter);
+
+% -----------------     metoda newtona  --------------------------------
+disp('-----------------     Metoda Newtona  -------------------------');
 NE_x=a;
 NE_x1=(1/(12*h))*(f(NE_x-(2*h))-(8*f(NE_x-h))+(8*f(NE_x+h))-f(NE_x+(2*h)));;
 NE_i=1;
@@ -65,10 +84,18 @@ while abs(NE_x1-NE_x)>epsilon
     NE_x1=NE_x-(f(NE_x)/NE_x_p);
     NE_i=NE_i+1;
 end
-Metoda_Newtona=NE_x1
-Metoda_Newtona_Iteracje=NE_i
-% metoda wbudowana
-disp('===============================================');
-Metoda_Wbudowana=fzero(f,a)
+metoda_newtona=NE_x1;
+iter=NE_i;
+
+disp('Metoda Newtona:');
+disp(regula_falsi);
+disp('iteracje:');
+disp(iter);
+
+
+% -----------------     metoda wbudowana  --------------------------------
+disp('-----------------     Metoda wbudowana  -------------------------');
+metoda_wbudowana=fzero(f,a);
+disp(metoda_wbudowana);
 
 
